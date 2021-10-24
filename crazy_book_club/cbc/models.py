@@ -6,11 +6,25 @@ class Book(models.Model):
     name = models.CharField(max_length=150) #limits the length of the name
     authors = models.JSONField()
     year_published = models.IntegerField()
+
     date_added = models.DateTimeField(auto_now_add=True) #automatically sets field when first created
     date_modified = models.DateTimeField(auto_now=True) #automatically sets field each time its saved
 
     def __str__(self):
         """Returns a message that describes the book"""
-        return f"The book {self.name} by {self.authors} was published in {self.year_published}"
+        return f"{self.name} by {self.authors}, published in {self.year_published}"
 
-# Create your models here.
+
+class Review(models.Model):
+    """Describes the Review class"""
+    my_review = models.TextField()
+    stars = models.IntegerField()
+    unfinished = models.BooleanField()
+    book = models.ForeignKey(Book, on_delete=models.CASCADE)
+
+    date_added = models.DateTimeField(auto_now_add=True) #automatically sets field when first created
+    date_modified = models.DateTimeField(auto_now=True) #automatically sets field each time its saved
+
+    def __str__(self):
+        """Return a string representation of the review"""
+        return f"{self.my_review[:50]}..."
